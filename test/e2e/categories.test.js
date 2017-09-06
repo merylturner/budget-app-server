@@ -106,5 +106,12 @@ describe('categories api', () => {
                     assert.deepEqual(category.expenses, expenses);
                 });
         });
+        
+        it('deletes a category', () => {
+            return request.delete(`/api/categories/${id}`)
+                .then( response => {
+                    assert.deepEqual(response.body, {removed: true});
+                });
+        });
     });
 });
