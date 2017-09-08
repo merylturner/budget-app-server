@@ -66,19 +66,19 @@ describe('categories api', () => {
             {
                 name: 'kitchen',
                 category: home._id,
-                budget: 50,
+                amount: 50,
                 date: '12/03/2016'
             },
             {
                 name: 'bathroom',
                 category: home._id,
-                budget: 800,
+                amount: 800,
                 date: '12/03/2016'
             },
             {
                 name: 'living room',
                 category: home._id,
-                budget: 500,
+                amount: 500,
                 date: '12/03/2016'
             }
         ];
