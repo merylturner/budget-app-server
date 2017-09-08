@@ -13,7 +13,7 @@
 //         const expense = new Expense({
 //             name: 'Kitchen Cabinets',
 //             category: category._id,
-//             budget: 5000,
+//             amount: 5000,
 //             date: '09/04/2017'
 //         });
 //         return expense.validate();
