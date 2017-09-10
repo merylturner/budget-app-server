@@ -24,7 +24,6 @@ describe('category model', () => {
                 const errors = err.errors;
                 assert.ok(errors.name && errors.name.kind === 'required');
                 assert.ok(errors.budget && errors.budget.kind === 'required');
-                assert.ok(errors.date && errors.date.kind === 'required');
             });
     });
 });
