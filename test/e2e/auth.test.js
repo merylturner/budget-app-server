@@ -69,5 +69,29 @@ describe.only('categories api', () => {
             badRequest('/api/auth/signin', { email: user.email, password: 'bad' }, 401, 'invalid login')
         );
 
+        it('signin', () =>
+            request
+                .post('/api/auth/signin')
+                .send(user)
+                .then(res => assert.ok(res.body.token))
+        );
+
+        it('token is invalid', () =>
+            request
+                .get('/api/auth/verify')
+                .send('Authorization', 'bad token')
+                .then(
+                    () => { throw new Error('success response not expected'); },
+                    (res) => { assert.equal(res.status, 401); }
+                )
+        );
+
+        it('token is valid', () =>
+            request
+                .get('/api/auth/verify')
+                .set('Authorization', token)
+                .then(res => assert.ok(res.body))
+        );
+
     });
 });
