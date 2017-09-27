@@ -3,7 +3,7 @@ const request = require('./helpers/request');
 const { assert } = require('chai');
 
 describe('categories api', () => {
-    before(() => db.dropDatabase());
+    before(() => db.drop());
     
     let token = null;
     

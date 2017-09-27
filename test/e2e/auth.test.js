@@ -10,7 +10,7 @@ require('../../lib/connect');
 
 const connection = require('mongoose').connection;
 
-describe('categories api', () => {
+describe.only('categories api', () => {
     before(() => connection.dropDatabase());
 
     const user = {
@@ -34,10 +34,10 @@ describe('categories api', () => {
                 );
 
         it('signup requires email', () =>
-            badRequest('/api/authTeacher/signup', { password: 'cool' }, 400, 'name, email, and password must be supplied')
+            badRequest('/api/auth/signup', { password: 'cool' }, 400, 'name, email, and password must be supplied')
         );
         it('signup requires password', () =>
-            badRequest('/api/authTeacher/signup', { email: 'meryl@iscool.com' }, 400, 'name, email, and password must be supplied')
+            badRequest('/api/auth/signup', { email: 'meryl@iscool.com' }, 400, 'name, email, and password must be supplied')
         );
     });
 });
