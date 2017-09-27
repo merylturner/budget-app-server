@@ -1,20 +1,17 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-const assert = require('chai').assert;
-const app = require('../../lib/app');
-const request = chai.request(app);
-
-process.env.MONGODB_URI = 'mongodb://localhost:27017/categories-test';
-require('../../lib/connect');
-
-const connection = require('mongoose').connection;
+const db = require('./helpers/db');
+const request = require('./helpers/request');
+const { assert } = require('chai');
 
 describe('categories api', () => {
-    before(() => connection.dropDatabase());
+    before(() => db.dropDatabase());
+    
+    let token = null;
+    
+    before(() => db.getToken().then(t => token = t));
 
     it('initial GET returns empty list', () => {
         return request.get('/api/categories')
+            .set('Authorization', token)
             .then(req => {
                 const categories = req.body;
                 assert.deepEqual(categories, []);
@@ -41,6 +38,7 @@ describe('categories api', () => {
             .then(() => {
                 return request.get(`/api/categories/${home._id}`);
             })
+            .set('Authorization', token)
             .then(res => res.body)
             .then(got => {
                 assert.deepEqual(got, home);
@@ -54,6 +52,7 @@ describe('categories api', () => {
             saveCategory(entertainment),
         ])
             .then(() => request.get('/api/categories'))
+            .set('Authorization', token)
             .then(res => res.body)
             .then(categories => {
                 assert.equal(categories.length, 3);
@@ -102,6 +101,7 @@ describe('categories api', () => {
 
         it('returns expenses for a category', () => {
             return request.get(`/api/categories/${id}`)
+                .set('Authorization', token)
                 .then(({ body: category }) => {
                     assert.deepEqual(category.expenses.length, 3);
                 });
@@ -109,6 +109,7 @@ describe('categories api', () => {
         
         it('deletes a category', () => {
             return request.delete(`/api/categories/${id}`)
+                .set('Authorization', token)
                 .then( response => {
                     assert.deepEqual(response.body, {removed: true});
                 });
